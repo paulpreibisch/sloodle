@@ -195,7 +195,7 @@ if (count($messages)) {
 $output = $PAGE->get_renderer('mod_quiz');
 if (!$attemptobj->is_preview_user() && $messages) {
     // TODO: SLOODLE ERROR
-    //print_error('attempterror', 'quiz', $attemptobj->view_url(), $output->access_messages($messages));
+    //throw new \moodle_exception('attempterror', 'quiz', $attemptobj->view_url(), $output->access_messages($messages));
 }
 
 //add_to_log($attemptobj->get_courseid(), 'quiz', 'continue attempt', 'review.php?attempt=' . $attemptobj->get_attemptid(), $attemptobj->get_quizid(), $attemptobj->get_cmid());
@@ -430,7 +430,7 @@ if ($finishattempt) {
         }
     /*
     } catch (question_out_of_sequence_exception $e) {
-        print_error('submissionoutofsequencefriendlymessage', 'question', $attemptobj->attempt_url(null, $thispage));
+        throw new \moodle_exception('submissionoutofsequencefriendlymessage', 'question', $attemptobj->attempt_url(null, $thispage));
     */
     } catch (Exception $e) {
         $sloodle->response->quick_output(-701, 'QUIZ', 'Closing quiz failed: '.$e->getMessage(), FALSE);

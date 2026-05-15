@@ -26,16 +26,16 @@ if ($id!=0) $urlparams['id'] = $id;
 // Attempt to fetch the course module instance
 if ($id) {
     if (!$course = sloodle_get_record('course', 'id', $id)) {
-        print_error('Could not find course');
+        throw new \moodle_exception('Could not find course');
     }
 }
 else {
-    print_error('Must specify a course ID');
+    throw new \moodle_exception('Must specify a course ID');
 }
 
 // Get the Sloodle course data
 $sloodle_course = new SloodleCourse();
-if (!$sloodle_course->load($course)) print_error(get_string('failedcourseload','sloodle'));
+if (!$sloodle_course->load($course)) throw new \moodle_exception('failedcourseload', 'sloodle');
 
 // Ensure that the user is logged-in to this course
 require_login($course->id);
@@ -44,7 +44,7 @@ $course_context = context_course::instance($course->id, IGNORE_MISSING);
 
 // Do not allow guest access
 if (isguestuser()) {
-    print_error(get_string('noguestaccess', 'sloodle'));
+    throw new \moodle_exception('noguestaccess', 'sloodle');
     exit();
 }
 

@@ -96,7 +96,7 @@ class sloodle_view_addavatar extends sloodle_base_view
     {
         // Load the requested user
         $userid = required_param('user', PARAM_INT);
-        if (!$this->user->load_user($userid)) print_error('User not found.');
+        if (!$this->user->load_user($userid)) throw new \moodle_exception('User not found.');
         // Look for any existing registered avatars
         $linked_avatar = $this->user->load_linked_avatar();
         if ($linked_avatar === true) $this->has_avatar = 1;
@@ -104,7 +104,7 @@ class sloodle_view_addavatar extends sloodle_base_view
         
         // Fetch the Moodle course data
         $courseid = optional_param('course', SITEID, PARAM_INT);
-        if (!$this->course = sloodle_get_record('course', 'id', $courseid)) print_error('Could not find course.');
+        if (!$this->course = sloodle_get_record('course', 'id', $courseid)) throw new \moodle_exception('Could not find course.');
 
         // Moodle 2 rendering functions like to know the course.
         // They get upset if you try to pass a course into sloodle_print_footer() that isn't what they were expecting.
@@ -125,7 +125,7 @@ class sloodle_view_addavatar extends sloodle_base_view
         $system_context = get_context_instance(CONTEXT_SYSTEM);
         
         // Only allow admins to do this.
-        if (!has_capability('moodle/user:editprofile', $system_context)) print_error('Only site administrators have access to this page.');
+        if (!has_capability('moodle/user:editprofile', $system_context)) throw new \moodle_exception('Only site administrators have access to this page.');
     }
     
 

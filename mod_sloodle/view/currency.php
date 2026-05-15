@@ -63,9 +63,9 @@ class sloodle_view_currency extends sloodle_base_view
     {
         $id = required_param('id', PARAM_INT);
 
-        if (!$this->course = sloodle_get_record('course', 'id', $id)) print_error('Could not find course.');
+        if (!$this->course = sloodle_get_record('course', 'id', $id)) throw new \moodle_exception('Could not find course.');
         $this->sloodle_course = new SloodleCourse();
-        if (!$this->sloodle_course->load($this->course)) print_error(s(get_string('failedcourseload', 'sloodle')));
+        if (!$this->sloodle_course->load($this->course)) throw new \moodle_exception(s(get_string('failedcourseload', 'sloodle')));
 
     }
 
@@ -76,7 +76,7 @@ class sloodle_view_currency extends sloodle_base_view
         $mode = optional_param('mode', "view", PARAM_TEXT); 
 
         if ( ($mode != 'view') &&  (!$this->can_edit) ) {
-            print_error('Permission denied');
+            throw new \moodle_exception('Permission denied');
         }
 
         switch($mode) {
@@ -98,7 +98,7 @@ class sloodle_view_currency extends sloodle_base_view
             $result = sloodle_update_record('sloodle_currency_types',$currency);
             if (!$result) {
                 $errorlink = $CFG->wwwroot."/mod/sloodle/view.php?_type=currency&id={$id}";
-                print_error(get_string('general:fail','sloodle'),$errorlink);
+                throw new \moodle_exception(get_string('general:fail','sloodle'),$errorlink);
             }
 
             break;
@@ -119,7 +119,7 @@ class sloodle_view_currency extends sloodle_base_view
             $result = sloodle_insert_record('sloodle_currency_types',$currency);
             if (!$result) {
                 $errorlink = $CFG->wwwroot."/mod/sloodle/view.php?_type=currency&id={$id}";
-                print_error(get_string('general:fail','sloodle'), $errorlink);
+                throw new \moodle_exception(get_string('general:fail','sloodle'), $errorlink);
             }
 
             break;
@@ -129,7 +129,7 @@ class sloodle_view_currency extends sloodle_base_view
             $result = sloodle_delete_records('sloodle_currency_types', 'id', $currencyid);
             if (!$result) {
                 $errorlink = $CFG->wwwroot."/mod/sloodle/view.php?_type=currency&id={$id}";
-                print_error(get_string('general:fail','sloodle'), $errorlink);
+                throw new \moodle_exception(get_string('general:fail','sloodle'), $errorlink);
             }
 
             // delete awards
@@ -161,7 +161,7 @@ class sloodle_view_currency extends sloodle_base_view
     {
         // Ensure the user logs in
         require_login($this->course->id);
-        if (isguestuser()) print_error(get_string('noguestaccess', 'sloodle'));
+        if (isguestuser()) throw new \moodle_exception('noguestaccess', 'sloodle');
         //add_to_log($this->course->id, 'course', 'view sloodle data', '', "{$this->course->id}");
         sloodle_add_to_log($this->course->id, 'module_viewed', 'view.php', array('_type'=>'currency','id'=>$this->course->id), 'currency: view sloodle data');
 

@@ -45,7 +45,7 @@ $urlparams = array();
 $urlparams['sloodleauthid'] = $sloodleauthid;
 $auth_obj = SloodleController::get_object($sloodleauthid);
 if (!$auth_obj) {
-    print_error(get_string('objectauthnotfound','sloodle'));
+    throw new \moodle_exception('objectauthnotfound', 'sloodle');
     exit();
 }
 // Is the object already authorised?
@@ -189,7 +189,7 @@ if ($action_success == false && $object_authorised == false) {
     $recs = sloodle_get_records('sloodle', 'type', SLOODLE_TYPE_CTRL);
     // Make sure we have at least one controller
     if ($recs == false || count($recs) == 0) {
-        print_error(get_string('objectauthnocontrollers','sloodle'));
+        throw new \moodle_exception('objectauthnocontrollers', 'sloodle');
         exit();
     }
     foreach ($recs as $r) {
@@ -205,7 +205,7 @@ if ($action_success == false && $object_authorised == false) {
     
     // Make sure that permission came through on at least one controller
     if (count($controllers) == 0) {
-        print_error(get_string('objectauthnopermission','sloodle'));
+        throw new \moodle_exception('objectauthnopermission', 'sloodle');
         exit();
     }
     
@@ -289,7 +289,7 @@ if ($object_authorised && !empty($usetype)) {
 
     // Make sure the type exists
     $objectpath = SLOODLE_DIRROOT."/mod/$usetype";
-    if (!file_exists($objectpath)) print_error(get_string('objectnotinstalled','sloodle'));
+    if (!file_exists($objectpath)) throw new \moodle_exception('objectnotinstalled', 'sloodle');
     // Determine if we have a custom configuration page
     $hascustomconfig = $auth_obj->has_custom_config();
     

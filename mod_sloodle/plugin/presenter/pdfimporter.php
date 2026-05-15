@@ -92,7 +92,7 @@ class SloodlePluginPresenterPDFImporter extends SloodlePluginBasePresenterImport
                 sloodle_debug("Upload successful<br />\n");
                 return $this->import_file($presenter, $localfile, $importname, $position, $clientfile);
             }
-            if (is_string($res)) print_error($res, $url.'&amp;mode=edit');
+            if (is_string($res)) throw new \moodle_exception($res, $url.'&amp;mode=edit');
         }
 
         // No file specified - display forms to let the user select or upload the file.
@@ -222,7 +222,7 @@ class SloodlePluginPresenterPDFImporter extends SloodlePluginBasePresenterImport
         // In Moodle 2, we make an itemid for the file api
         $itemid = time();
         
-        if (!file_exists($path)) print_error("Import file doesn't exist.");
+        if (!file_exists($path)) throw new \moodle_exception("Import file doesn't exist.");
 
         // Start by running a compatibility check -- this just makes sure the extensions are loaded.
         $this->check_compatibility();
@@ -239,7 +239,7 @@ class SloodlePluginPresenterPDFImporter extends SloodlePluginBasePresenterImport
         if (!file_exists($dir_import)) mkdir($dir_import);
         // Now check on last time that the import folder exists
         if (!file_exists($dir_import)) {
-            print_error("Failed to create directory for imported images. Please check the file permissions for your MoodleData folder.<br /><br />Attempted to create: {$dir_import}");
+            throw new \moodle_exception("Failed to create directory for imported images. Please check the file permissions for your MoodleData folder.<br /><br />Attempted to create: {$dir_import}");
         }
 
         // Construct the URL of the folder for viewing the files
@@ -398,7 +398,7 @@ class SloodlePluginPresenterPDFImporter extends SloodlePluginBasePresenterImport
         }
         // Now make sure there are no quotation marks in the source/destination file and path names
         //  (these could be used to execute malicious commands on the server)
-        if (strpos($srcfile, "\"") !== false || strpos($destpath, "\"") !== false || strpos($destfile, "\"") !== false || strpos($destfileext, "\"") != false) print_error("Invalid file name -- please remove quotation marks from file names.");
+        if (strpos($srcfile, "\"") !== false || strpos($destpath, "\"") !== false || strpos($destfile, "\"") !== false || strpos($destfileext, "\"") != false) throw new \moodle_exception("Invalid file name -- please remove quotation marks from file names.");
 
         // Construct the conversion command
         $srcfile_shell_clean = escapeshellarg($srcfile);

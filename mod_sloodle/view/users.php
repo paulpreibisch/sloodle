@@ -122,9 +122,9 @@ class sloodle_view_users extends sloodle_base_view
     
         // Fetch our Moodle and SLOODLE course data
         $this->courseid = optional_param('course', SITEID, PARAM_INT);
-        if (!$this->course = sloodle_get_record('course', 'id', $this->courseid)) print_error('Could not find course.');
+        if (!$this->course = sloodle_get_record('course', 'id', $this->courseid)) throw new \moodle_exception('Could not find course.');
         $this->sloodle_course = new SloodleCourse();
-        if (!$this->sloodle_course->load($this->course)) print_error(get_string('failedcourseload', 'sloodle'));
+        if (!$this->sloodle_course->load($this->course)) throw new \moodle_exception('failedcourseload', 'sloodle');
 
         //$this->course_context = get_context_instance(CONTEXT_COURSE, $this->course->id);
         $this->course_context = context_course::instance($this->course->id, IGNORE_MISSING);

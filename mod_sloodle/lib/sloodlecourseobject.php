@@ -70,7 +70,7 @@ class sloodleCourseObj
         $this->courseContext = context_module::instance($this->cm->id);
          
         // Course object
-        if (!$this->courseRec = sloodle_get_record('course', 'id', $this->cm->course)) print_error('Failed to retrieve course.');            
+        if (!$this->courseRec = sloodle_get_record('course', 'id', $this->cm->course)) throw new \moodle_exception('Failed to retrieve course.');            
           
         //set course object
         $this->courseId = $this->cm->course;
@@ -84,13 +84,13 @@ class sloodleCourseObj
         $this->userList = $this->getUserList();
         $this->avatarList = $this->getAvatarList($this->userList);
           
-        if (!$this->sloodleCourseObject->load($this->courseRec)) print_error(get_string('failedcourseload', 'sloodle'));
+        if (!$this->sloodleCourseObject->load($this->courseRec)) throw new \moodle_exception('failedcourseload', 'sloodle');
         //set course context
         $this->courseContext =get_context_instance_by_id((int)$this->cm->instance);
         //  sloodle_get_records('context','instanceid',(int)$this->cm->instance);
           
         // Fetch the SLOODLE instance itself
-        if (!$this->sloodleRec = sloodle_get_record('sloodle', 'id', $this->cm->instance)) print_error('Failed to find SLOODLE module instance');
+        if (!$this->sloodleRec = sloodle_get_record('sloodle', 'id', $this->cm->instance)) throw new \moodle_exception('Failed to find SLOODLE module instance');
             
         //set sloodleId  (id of module instance)          
         $this->sloodleId= $this->cm->instance;  

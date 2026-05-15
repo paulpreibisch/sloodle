@@ -122,7 +122,7 @@ class sloodle_view_presenter extends sloodle_base_view_module
 
         // Load available Presenter plugins
         if (!$this->_session->plugins->load_plugins('presenter')) {
-            print_error('Failed to load Presenter plugins.');
+            throw new \moodle_exception('Failed to load Presenter plugins.');
             return false;
         }
     }
@@ -167,7 +167,7 @@ class sloodle_view_presenter extends sloodle_base_view_module
             if ($this->presenter_mode == 'deleteslide') {
                 // Make sure the session key is specified and valid
                 if (required_param('sesskey', PARAM_RAW) != sesskey()) {
-                    print_error('Invalid session key');
+                    throw new \moodle_exception('Invalid session key');
                     exit();
                 }
                 
@@ -195,13 +195,13 @@ class sloodle_view_presenter extends sloodle_base_view_module
             if ($this->presenter_mode == 'deletemultiple') {
                 // Make sure the session key is specified and valid
                 if (required_param('sesskey', PARAM_RAW) != sesskey()) {
-                    print_error('Invalid session key');
+                    throw new \moodle_exception('Invalid session key');
                     exit();
                 }
                 
                 // Fetch the IDs of the slides which are being deleted
                 if (isset($_REQUEST['entriesstr'])) $entryids = explode(',',$_REQUEST['entriesstr']);
-                else print_error("Expected HTTP parameter 'entries' not found.");
+                else throw new \moodle_exception("Expected HTTP parameter 'entries' not found.");
 
                 // Go through the given entry IDs and attempt to delete them
                 $numdeleted = 0;
@@ -279,7 +279,7 @@ class sloodle_view_presenter extends sloodle_base_view_module
                 global $DB, $USER;
 
                 if (!confirm_sesskey()) {
-                    print_error('Invalid session key');
+                    throw new \moodle_exception('Invalid session key');
                     exit();
                 }
                 // 
@@ -602,7 +602,7 @@ class sloodle_view_presenter extends sloodle_base_view_module
             if ($this->presenter_mode == 'confirmdeleteslide') {
                 // Make sure the session key is specified and valid
                 if (required_param('sesskey', PARAM_RAW) != sesskey()) {
-                    print_error('Invalid session key');
+                    throw new \moodle_exception('Invalid session key');
                     exit();
                 }
                 // Determine which slide is being deleted
@@ -625,7 +625,7 @@ class sloodle_view_presenter extends sloodle_base_view_module
             if ($this->presenter_mode == 'confirmdeletemultiple') {
                 // Make sure the session key is specified and valid
                 if (required_param('sesskey', PARAM_RAW) != sesskey()) {
-                    print_error('Invalid session key');
+                    throw new \moodle_exception('Invalid session key');
                     exit();
                 }
                 // Grab the array of entries to be deleted
@@ -937,7 +937,7 @@ class sloodle_view_presenter extends sloodle_base_view_module
             $entryid = (int)required_param('entry', PARAM_INT);
             // Fetch the slide details
             if (!isset($entries[$entryid])) {
-                print_error("Cannot find entry {$entryid} in the database.");
+                throw new \moodle_exception("Cannot find entry {$entryid} in the database.");
                 exit();
             }
             $entryurl = $entries[$entryid]->source;
@@ -1043,7 +1043,7 @@ class sloodle_view_presenter extends sloodle_base_view_module
         // Construct an array of available importers, associating the identifier to the human-readable name.
         $availableimporters = array();
         $pluginids = $this->_session->plugins->get_plugin_ids('presenter-importer');
-        if (!$pluginids) print_error('Failed to load any SLOODLE Presenter importer plugins. Please check your plugins folder.');
+        if (!$pluginids) throw new \moodle_exception('Failed to load any SLOODLE Presenter importer plugins. Please check your plugins folder.');
         foreach ($pluginids as $pluginid) {
             // Fetch the plugin and store its human-readable name
             $plugin = $this->_session->plugins->get_plugin('presenter-importer', $pluginid);
@@ -1154,7 +1154,7 @@ class sloodle_view_presenter extends sloodle_base_view_module
         // Make sure this user has site configuration permission, as running this test may reveal sensitive information about server architecture
         //$module_context = get_context_instance(CONTEXT_MODULE, $this->cm->id);
         $module_context = context_module::instance($this->cm->id);
-        if (!has_capability('moodle/site:config', $module_context)) print_error(get_string('clicktocheckcompatibility:nopermission', 'sloodle'), "{$CFG->wwwroot}/mod/sloodle/view.php?id={$this->cm->id}&amp;mode=importslides");
+        if (!has_capability('moodle/site:config', $module_context)) throw new \moodle_exception(get_string('clicktocheckcompatibility:nopermission', 'sloodle'), "{$CFG->wwwroot}/mod/sloodle/view.php?id={$this->cm->id}&amp;mode=importslides");
         
         // Display a heading for this compatibility check
         echo '<h1>',get_string('runningcompatibilitycheck', 'sloodle'),'</h1>';

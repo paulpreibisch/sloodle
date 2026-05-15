@@ -87,7 +87,7 @@ class block_sloodle_menu extends block_base
         
         // If no course has been specified, then we are using the site course
         if (!isset($COURSE)) {
-            $COURSE = get_site();
+            $COURSE = get_site_by_id(SITEID);
         }
         
         // If the user is not logged in or if they are using guest access, then we can't show anything
@@ -198,13 +198,7 @@ class block_sloodle_menu extends block_base
         if (has_capability('moodle/site:config', $course_context)) {
             
             // The address of the configuration page depends on our version of Moodle
-            if ($CFG->version < 2007101500) {
-                // < 1.9
-                $address = "/admin/module.php?module=sloodle";
-            } else {
-                // >= 1.9
-                $address = "/admin/settings.php?section=modsettingsloodle";
-            }
+            $address = "/admin/settings.php?section=modsettingsloodle";
         
             $this->content->text .= "<img src=\"{$CFG->wwwroot}/blocks/sloodle_menu/img/configure.gif\" width=\"16\" height=\"16\"/> ";
             $this->content->text .= "<a href=\"{$CFG->wwwroot}$address\">".get_string('sloodleconfig', 'block_sloodle_menu')."</a><br/>";

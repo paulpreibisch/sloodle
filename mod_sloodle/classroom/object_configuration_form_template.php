@@ -18,7 +18,7 @@
 
 // IMPORTANT: make sure this is called from within a Sloodle script
 if (!defined('SLOODLE_VERSION')) {
-    print_error('Not called from within a Sloodle script.');
+    throw new \moodle_exception('Not called from within a Sloodle script.');
     exit();
 }
 

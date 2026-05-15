@@ -68,21 +68,21 @@ $strno = get_string('no');
 
 // Attempt to fetch the course module instance
 if (! $cm = get_coursemodule_from_id('sloodle', $sloodlecontrollerid)) {
-    print_error("Failed to load course module");
+    throw new \moodle_exception("Failed to load course module");
 }
 // Get the course data
 if (! $course = sloodle_get_record("course", "id", $cm->course)) {
-    print_error("Course is misconfigured");
+    throw new \moodle_exception("Course is misconfigured");
 }
 // Get the Sloodle instance
 if (! $sloodle = sloodle_get_record('sloodle', 'id', $cm->instance)) {
-    print_error('Failed to find Sloodle module instance.');
+    throw new \moodle_exception('Failed to find Sloodle module instance.');
 }
 
 // Get the Sloodle course data
 $sloodle_course = new SloodleCourse();
-if (!$sloodle_course->load($course)) print_error(get_string('failedcourseload','sloodle'));
-if (!$sloodle_course->controller->load($sloodlecontrollerid)) print_error('Failed to load Controller data');
+if (!$sloodle_course->load($course)) throw new \moodle_exception('failedcourseload', 'sloodle');
+if (!$sloodle_course->controller->load($sloodlecontrollerid)) throw new \moodle_exception('Failed to load Controller data');
 
 // Ensure that the user is logged-in for this course
 require_course_login($course, true, $cm);
@@ -108,7 +108,7 @@ sloodle_add_to_log($course->id, 'classroom_log', 'classroom/notecard_configurati
 
 // Make sure the object type is recognised
 $objectpath = SLOODLE_DIRROOT."/mod/$sloodleobjtype";
-if (!file_exists($objectpath)) print_error("ERROR: object \"$sloodleobjtype\" is not installed.");
+if (!file_exists($objectpath)) throw new \moodle_exception("ERROR: object \"$sloodleobjtype\" is not installed.");
 // Determine if we have a custom configuration page
 $customconfig = $objectpath.'/object_config.php';
 $hascustomconfig = file_exists($customconfig);

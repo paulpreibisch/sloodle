@@ -27,12 +27,12 @@ $course = null;
 if ($id) {
     $course = sloodle_get_record("course", "id", $id);
     if (! $course = sloodle_get_record("course", "id", $id)) {
-        print_error("Course ID is incorrect");
+        throw new \moodle_exception("Course ID is incorrect");
     }
 }
 else {
     if (! $course = get_site()) {
-        print_error("Could not find a top-level course!");
+        throw new \moodle_exception("Could not find a top-level course!");
     }
 }
 

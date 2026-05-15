@@ -136,7 +136,7 @@ class sloodle_view_user extends sloodle_base_view
     {
         // Ensure the user logs in
         require_login();
-        if (isguestuser()) print_error(get_string('noguestaccess', 'sloodle'));
+        if (isguestuser()) throw new \moodle_exception('noguestaccess', 'sloodle');
         //add_to_log($this->course->id, 'course', 'view sloodle user', '', "{$this->course->id}");
         //sloodle_add_to_log($this->course->id, 'module_viewed', 'view.php', array('_type'=>'user','id'=>$USER->id,'course'=>$this->course->id), 'user: view sloodle user');
         
@@ -158,9 +158,9 @@ class sloodle_view_user extends sloodle_base_view
         if (strcasecmp($this->moodleuserid, 'all') == 0) $this->courseid = SITEID;
     
         // Fetch our Moodle and SLOODLE course data
-        if (!$this->course = sloodle_get_record('course', 'id', $this->courseid)) print_error('Could not find course.');
+        if (!$this->course = sloodle_get_record('course', 'id', $this->courseid)) throw new \moodle_exception('Could not find course.');
         $this->sloodle_course = new SloodleCourse();
-        if (!$this->sloodle_course->load($this->course)) print_error(get_string('failedcourseload', 'sloodle'));
+        if (!$this->sloodle_course->load($this->course)) throw new \moodle_exception('failedcourseload', 'sloodle');
         $this->start = optional_param('start', 0, PARAM_INT);
         if ($this->start < 0) $this->start = 0;
 
@@ -184,7 +184,7 @@ class sloodle_view_user extends sloodle_base_view
         
         // Ensure the user logs in
         require_login();
-        if (isguestuser()) print_error(get_string('noguestaccess', 'sloodle'));
+        if (isguestuser()) throw new \moodle_exception('noguestaccess', 'sloodle');
         //add_to_log($this->course->id, 'course', 'view sloodle user', '', "{$this->course->id}");
         sloodle_add_to_log($this->course->id, 'module_viewed', 'view.php', array('_type'=>'user','id'=>$USER->id,'course'=>$this->course->id), 'user: view sloodle user');
         
@@ -204,7 +204,7 @@ class sloodle_view_user extends sloodle_base_view
         else {
             // The "all" view should be only available to admins
             if ( !has_capability('moodle/site:viewparticipants', $this->system_context) ){
-                print_error(get_string('insufficientpermissiontoviewpage', 'sloodle'));
+                throw new \moodle_exception('insufficientpermissiontoviewpage', 'sloodle');
                 exit();
             }
 
@@ -217,7 +217,7 @@ class sloodle_view_user extends sloodle_base_view
             else if (!(has_capability('moodle/user:viewdetails', $this->system_context) || has_capability('moodle/user:viewdetails', $this->course_context))) {
                 // If this is the site course, then let it through anyway
                 if ($this->courseid != SITEID) {
-                    print_error(get_string('insufficientpermissiontoviewpage','sloodle'));
+                    throw new \moodle_exception('insufficientpermissiontoviewpage', 'sloodle');
                     exit();
                 }
             }
@@ -287,7 +287,7 @@ class sloodle_view_user extends sloodle_base_view
         else {
             // Make sure the Moodle user ID is an integer
             $this->moodleuserid = (integer)$this->moodleuserid;
-            if ($this->moodleuserid <= 0) print_error(ucwords(get_string('unknownuser', 'sloodle')));
+            if ($this->moodleuserid <= 0) throw new \moodle_exception(ucwords(get_string('unknownuser', 'sloodle')));
         }
         
         // Get the URL and names of the course

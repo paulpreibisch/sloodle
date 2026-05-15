@@ -53,7 +53,7 @@ function sloodle_add_instance($sloodle)
         
     // Attempt to insert the new Sloodle record
     if (!$sloodle->id = sloodle_insert_record('sloodle', $sloodle)) {
-        print_error(get_string('failedaddinstance', 'sloodle'));
+        throw new \moodle_exception('failedaddinstance', 'sloodle');
     }
     
     // We need to create a new secondary table for this module
@@ -124,7 +124,7 @@ function sloodle_add_instance($sloodle)
         
       default:
         // Type not recognised - this really shouldn't kill the script though... makes development very hard
-        //$errormsg = print_error(get_string('moduletypeunknown', 'sloodle'));
+        //$errormsg = throw new \moodle_exception('moduletypeunknown', 'sloodle');
         $result = TRUE;
         break;
     }
@@ -136,7 +136,9 @@ function sloodle_add_instance($sloodle)
         sloodle_delete_records('sloodle', 'id', $sloodle->id);
         
         // Show the error message (if there was one)
-        if (!empty($errormsg)) print_error($errormsg);
+        if (!empty($errormsg)) {
+            throw new \moodle_exception($errormsg);
+        }
         return FALSE;
     }
     
@@ -164,15 +166,19 @@ function sloodle_update_instance($sloodle)
     
     // Make sure the type is the same as the existing record
     $existing_record = sloodle_get_record('sloodle', 'id', $sloodle->id);
-    if (!$existing_record) print_error(get_string('modulenotfound', 'sloodle'));
-    if ($existing_record->type != $sloodle->type) print_error(get_string('moduletypemismatch', 'sloodle'));
+    if (!$existing_record) {
+        throw new \moodle_exception('modulenotfound', 'sloodle');
+    }
+    if ($existing_record->type != $sloodle->type) {
+        throw new \moodle_exception('moduletypemismatch', 'sloodle');
+    }
     
     // Check the type of this module
     switch ($sloodle->type) {
       case SLOODLE_TYPE_CTRL:
         // Attempt to fetch the controller record
         $ctrl = sloodle_get_record('sloodle_controller', 'sloodleid', $sloodle->id);
-        if (!$ctrl) print_error(get_string('secondarytablenotfound', 'sloodle'));
+        if (!$ctrl) { throw new \moodle_exception('secondarytablenotfound', 'sloodle'); }
         
         // Add the updated 'enabled' value
         if (isset($sloodle->controller_enabled) && $sloodle->controller_enabled) $ctrl->enabled = 1;
@@ -188,7 +194,7 @@ function sloodle_update_instance($sloodle)
       case SLOODLE_TYPE_DISTRIB:
         // Attempt to fetch the distributor record
         $distrib = sloodle_get_record('sloodle_distributor', 'sloodleid', $sloodle->id);
-        if (!$distrib) print_error(get_string('secondarytablenotfound', 'sloodle'));
+        if (!$distrib) { throw new \moodle_exception('secondarytablenotfound', 'sloodle'); }
         
         // Has a reset been requested?
         if ($sloodle->distributor_reset) {
@@ -207,7 +213,7 @@ function sloodle_update_instance($sloodle)
       case SLOODLE_TYPE_PRESENTER:
         // Attempt to fetch the Presenter record
         $presenter = sloodle_get_record('sloodle_presenter', 'sloodleid', $sloodle->id);
-        if (!$presenter) print_error(get_string('secondarytablenotfound', 'sloodle'));
+        if (!$presenter) { throw new \moodle_exception('secondarytablenotfound', 'sloodle'); }
 
         // Add the updated frame dimensions
         $presenter->framewidth  = (int)$sloodle->presenter_framewidth;
@@ -221,7 +227,7 @@ function sloodle_update_instance($sloodle)
       case SLOODLE_TYPE_TRACKER:    
         //
         $tracker = sloodle_get_record('sloodle_tracker', 'sloodleid', $sloodle->id);
-        if (!$tracker) print_error(get_string('secondarytablenotfound', 'sloodle'));
+        if (!$tracker) { throw new \moodle_exception('secondarytablenotfound', 'sloodle'); }
         
         $tracker->autosend = (int)$sloodle->tracker_autosend;
         $tracker->currency = (int)$sloodle->tracker_currency;
@@ -486,51 +492,6 @@ function sloodle_scale_used ($sloodleid,$scaleid)
 }
 
 
-/**
-* Gets the different sub-types of Sloodle module available as a list for the "Add Activity..." menu.
-* Also adds the 'Sloodle Map' resource type.
-*
-* $return array Entries for the "Add Activity..." and "Add Resource..." menus.
-*/
-function sloodle_get_types()            // Deprecated at 3.1
-{
-    $types = get_shortcuts(null);
-    return $types;
-}
-
-
-function get_shortcuts($defaultitem)    // Deprecated at 3.9
-{
-    global $CFG, $SLOODLE_TYPES;
-    $types = array();
-
-    if (!empty($defaultitem)) $types[] = $defaultitem;
-
-    // Start the group of activities
-    $type = new stdclass();
-    $type->modclass = MOD_CLASS_ACTIVITY;
-    $type->type = "sloodle_group_start";
-    $type->typestr = '--'.get_string('modulenameplural', 'sloodle');
-    $types[] = $type;
-     
-    // Go through each Sloodle module type, and add it
-    foreach ($SLOODLE_TYPES as $st) {
-        $type = new stdclass();
-        $type->modclass = MOD_CLASS_ACTIVITY;
-        $type->type = "sloodle&amp;type=$st";
-        $type->typestr = get_string("moduletype:$st", 'sloodle');
-        $types[] = $type;
-    }
-
-    // End the group of activities
-    $type = new stdclass();
-    $type->modclass = MOD_CLASS_ACTIVITY;
-    $type->type = "sloodle_group_end";
-    $type->typestr = '--';
-    $types[] = $type;
-
-    return $types;
-}
 
 
 // added by Fumi.Hax and M.Tsuge  2022/05/19
@@ -613,15 +574,22 @@ function sloodle_get_configured_types($courseid)
 
 /**
  * @param string $feature FEATURE_xx constant for requested feature
- * @return bool True if sloodle supports feature
+ * @return mixed True/false/null
  */
 function sloodle_supports($feature)
 {
-    switch($feature) {
-        case FEATURE_MOD_INTRO:      return true;
-        case FEATURE_BACKUP_MOODLE2: return true; 
-
-        default: return null;
+    switch ($feature) {
+        case FEATURE_MOD_INTRO:               return true;
+        case FEATURE_BACKUP_MOODLE2:          return true;
+        case FEATURE_SHOW_DESCRIPTION:        return true;
+        case FEATURE_NO_VIEW_LINK:            return false;
+        case FEATURE_IDNUMBER:                return false;
+        case FEATURE_GROUPS:                  return false;
+        case FEATURE_GROUPINGS:               return false;
+        case FEATURE_GRADE_HAS_GRADE:         return false;
+        case FEATURE_GRADE_OUTCOMES:          return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS: return false;
+        default:                              return null;
     }
 }
 

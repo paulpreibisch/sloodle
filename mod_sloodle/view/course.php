@@ -61,9 +61,9 @@ class sloodle_view_course extends sloodle_base_view
     function process_request()
     {
         $id = required_param('id', PARAM_INT);
-        if (!$this->course = sloodle_get_record('course', 'id', $id)) print_error('Could not find course.');
+        if (!$this->course = sloodle_get_record('course', 'id', $id)) throw new \moodle_exception('Could not find course.');
         $this->sloodle_course = new SloodleCourse();
-        if (!$this->sloodle_course->load($this->course)) print_error(get_string('failedcourseload', 'sloodle'));
+        if (!$this->sloodle_course->load($this->course)) throw new \moodle_exception('failedcourseload', 'sloodle');
     }
 
 
@@ -74,7 +74,7 @@ class sloodle_view_course extends sloodle_base_view
     {
         // Ensure the user logs in
         require_login($this->course->id);
-        if (isguestuser()) print_error(get_string('noguestaccess', 'sloodle'));
+        if (isguestuser()) throw new \moodle_exception('noguestaccess', 'sloodle');
         //add_to_log($this->course->id, 'course', 'view sloodle data', '', "{$this->course->id}");
         sloodle_add_to_log($this->course->id, 'module_viewed', 'view.php', array('_type'=>'course','id'=>$this->course->id), 'course: view sloodle data');
 

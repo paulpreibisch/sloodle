@@ -44,7 +44,7 @@ class sloodle_view_controller extends sloodle_base_view_module
         // Process basic data first
         parent::process_request();
         // Obtain the Controller-specific data
-        if (!$this->controller = sloodle_get_record('sloodle_controller', 'sloodleid', $this->sloodle->id)) print_error('Failed to locate Controller data');
+        if (!$this->controller = sloodle_get_record('sloodle_controller', 'sloodleid', $this->sloodle->id)) throw new \moodle_exception('Failed to locate Controller data');
     }
 
 

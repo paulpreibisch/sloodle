@@ -95,14 +95,14 @@ class sloodle_base_view_module extends sloodle_base_view
         // Note: some modules prefer 's' to indicate the instance number... may need to implement that as well.
         // Fetch the course module instance
         $id = required_param('id', PARAM_INT);
-        if (!$this->cm = get_coursemodule_from_id('sloodle', $id)) print_error('Course module ID was incorrect.');
+        if (!$this->cm = get_coursemodule_from_id('sloodle', $id)) throw new \moodle_exception('Course module ID was incorrect.');
         // Fetch the course data
-        if (!$this->course = sloodle_get_record('course', 'id', $this->cm->course)) print_error('Failed to retrieve course.');
+        if (!$this->course = sloodle_get_record('course', 'id', $this->cm->course)) throw new \moodle_exception('Failed to retrieve course.');
         $this->sloodle_course = new SloodleCourse();
-        if (!$this->sloodle_course->load($this->course)) print_error(get_string('failedcourseload', 'sloodle'));
+        if (!$this->sloodle_course->load($this->course)) throw new \moodle_exception('failedcourseload', 'sloodle');
 
         // Fetch the SLOODLE instance itself
-        if (!$this->sloodle = sloodle_get_record('sloodle', 'id', $this->cm->instance)) print_error('Failed to find SLOODLE module instance');
+        if (!$this->sloodle = sloodle_get_record('sloodle', 'id', $this->cm->instance)) throw new \moodle_exception('Failed to find SLOODLE module instance');
     }
 
     /**

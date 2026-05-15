@@ -28,7 +28,7 @@ require_once(SLOODLE_LIBROOT.'/sloodle_session.php');
 
 // Make sure the user is logged-in and is not a guest
 if (isloggedin() == false || isguestuser() == true) {
-    print_error(get_string('noguestaccess','sloodle'));
+    throw new \moodle_exception('noguestaccess', 'sloodle');
     exit();
 }
 
@@ -38,13 +38,13 @@ $sloodleauthid = required_param('sloodleauthid', PARAM_INT);
 $urlparams['sloodleauthid'] = $sloodleauthid;
 $auth_obj = SloodleController::get_object($sloodleauthid);
 if (!$auth_obj) {
-    print_error(get_string('objectauthnotfound','sloodle'));
+    throw new \moodle_exception('objectauthnotfound', 'sloodle');
     exit();
 }
 // Make sure the object is authorised
 if ($auth_obj->course->controller->is_loaded() == false) {
     //TODO: more appropriate error message?
-    print_error(get_string('objectauthnotfound','sloodle'));
+    throw new \moodle_exception('objectauthnotfound', 'sloodle');
     exit();
 }
 

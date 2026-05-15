@@ -1093,9 +1093,9 @@ function sloodle_view($feature)
         $id = required_param('id', PARAM_INT);     // ReGet
         // Query the database for the SLOODLE module sub-type
         $instanceid = sloodle_get_field('course_modules', 'instance', 'id', $id);
-        if ($instanceid === false) print_error('Course module instance '.$id.' not found.');
+        if ($instanceid === false) throw new \moodle_exception('Course module instance '.$id.' not found.');
         $type = sloodle_get_field('sloodle', 'type', 'id', $instanceid);
-        if ($type === false) print_error('SLOODLE module instance '.$instanceid.' not found.');
+        if ($type === false) throw new \moodle_exception('SLOODLE module instance '.$instanceid.' not found.');
         // We will just use the type as a feature name now.
         // This means the following words are unavailable as module sub-types: course, user, users
         $feature = $type;
@@ -1104,7 +1104,7 @@ function sloodle_view($feature)
     // Attempt to include the relevant viewing class
     $filename = SLOODLE_DIRROOT."/view/{$feature}.php";
     if (!file_exists($filename)) {
-        print_error("SLOODLE file not found: view/{$feature}.php");
+        throw new \moodle_exception("SLOODLE file not found: view/{$feature}.php");
         exit();
     }
     require_once($filename);
@@ -1112,7 +1112,7 @@ function sloodle_view($feature)
     // Create and execute the viewing instance
     $classname = 'sloodle_view_'.$feature;
     if (!class_exists($classname)) {
-        print_error("SLOODLE class missing: {$classname}");
+        throw new \moodle_exception("SLOODLE class missing: {$classname}");
         exit();
     }
     $viewer = new $classname();

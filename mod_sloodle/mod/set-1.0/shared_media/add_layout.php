@@ -61,7 +61,7 @@ if (!$layoutid = $layout->insert()) {
         $recs = sloodle_get_records('sloodle', 'type', SLOODLE_TYPE_CTRL);
         // Make sure we have at least one controller
         if ($recs == false || count($recs) == 0) {
-            print_error(get_string('objectauthnocontrollers','sloodle'));
+            throw new \moodle_exception('objectauthnocontrollers', 'sloodle');
             exit();
         }
 

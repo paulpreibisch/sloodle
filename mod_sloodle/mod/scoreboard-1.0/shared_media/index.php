@@ -53,7 +53,7 @@
     }
 
     if (!$currencyid = $sao->currencyid) {
-        print_error(('Currency ID missing'));
+        throw new \moodle_exception(('Currency ID missing'));
     }    
 
     $currency = SloodleCurrency::ForID( $currencyid );

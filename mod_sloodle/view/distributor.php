@@ -48,7 +48,7 @@ class sloodle_view_distributor extends sloodle_base_view_module
         // Process the basic data
         parent::process_request();
         // Grab the Distributor data
-        if (!$this->distributor = sloodle_get_record('sloodle_distributor', 'sloodleid', $this->sloodle->id)) print_error('Failed to get SLOODLE Distributor data.');
+        if (!$this->distributor = sloodle_get_record('sloodle_distributor', 'sloodleid', $this->sloodle->id)) throw new \moodle_exception('Failed to get SLOODLE Distributor data.');
     }
 
 

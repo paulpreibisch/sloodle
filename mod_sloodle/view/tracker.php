@@ -114,7 +114,7 @@ class sloodle_view_tracker extends sloodle_base_view_module
         $canManage = $this->canedit;
         
         // Load data of the current Second Life Tracker
-        if (!$tracker->load($this->cm->id)) print_error("FAILED TO LOAD MODULE");
+        if (!$tracker->load($this->cm->id)) throw new \moodle_exception("FAILED TO LOAD MODULE");
      
         $this->courseid = $this->course->id; 
         $sloodleid = $this->sloodle->id;

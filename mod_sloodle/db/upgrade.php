@@ -78,13 +78,13 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle<br />";
         $table = new xmldb_table('sloodle');
 
-        $table->add_field('id',           XMLDB_TYPE_INTEGER, '10',     XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('course',       XMLDB_TYPE_INTEGER, '10',     XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('id',           XMLDB_TYPE_INTEGER, '10',     null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('course',       XMLDB_TYPE_INTEGER, '10',     null, XMLDB_NOTNULL, null,           '0',  null);
         $table->add_field('type',         XMLDB_TYPE_CHAR,    '50',     null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('name',         XMLDB_TYPE_CHAR,    '255',    null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('intro',        XMLDB_TYPE_TEXT,    'medium', null,           XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('timecreated',  XMLDB_TYPE_INTEGER, '10',     XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
-        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10',     XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('timecreated',  XMLDB_TYPE_INTEGER, '10',     null, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10',     null, XMLDB_NOTNULL, null,           '0',  null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_index('course', XMLDB_INDEX_NOTUNIQUE, array('course'));
@@ -94,9 +94,9 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_controller<br />";
         $table = new xmldb_table('sloodle_controller');
 
-        $table->add_field('id',        XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('sloodleid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
-        $table->add_field('enabled',   XMLDB_TYPE_INTEGER, '1',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('id',        XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('sloodleid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('enabled',   XMLDB_TYPE_INTEGER, '1',  null, XMLDB_NOTNULL, null,           '0',  null);
         $table->add_field('password',  XMLDB_TYPE_CHAR,    '9',  null,           null,          null,           null, null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
@@ -107,10 +107,10 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_distributor<br />";
         $table = new xmldb_table('sloodle_distributor');
 
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('sloodleid',   XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('sloodleid',   XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null,           '0',  null);
         $table->add_field('channel',     XMLDB_TYPE_CHAR,    '36', null,           XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null,           '0',  null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $dbman->create_table($table);
@@ -119,8 +119,8 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_distributor_entry<br />";
         $table = new xmldb_table('sloodle_distributor_entry');
 
-        $table->add_field('id',            XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('distributorid', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('id',            XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('distributorid', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
         $table->add_field('name',          XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
@@ -130,14 +130,14 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_course<br />";
         $table = new xmldb_table('sloodle_course');
 
-        $table->add_field('id',               XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('course',           XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
-        $table->add_field('autoreg',          XMLDB_TYPE_INTEGER, '1',   XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
-        $table->add_field('autoenrol',        XMLDB_TYPE_INTEGER, '1',   XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('id',               XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('course',           XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('autoreg',          XMLDB_TYPE_INTEGER, '1',   null, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('autoenrol',        XMLDB_TYPE_INTEGER, '1',   null, XMLDB_NOTNULL, null,           '0',  null);
         $table->add_field('loginzonepos',     XMLDB_TYPE_CHAR,    '255', null,           null,          null,           null, null);
         $table->add_field('loginzonesize',    XMLDB_TYPE_CHAR,    '255', null,           null,          null,           null, null);
         $table->add_field('loginzoneregion',  XMLDB_TYPE_CHAR,    '255', null,           null,          null,           null, null);
-        $table->add_field('loginzoneupdated', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('loginzoneupdated', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_index('course', XMLDB_INDEX_NOTUNIQUE, array('course'));
@@ -147,11 +147,11 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_pending_avatar<br />";
         $table = new xmldb_table('sloodle_pending_avatars');
 
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
         $table->add_field('uuid',        XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('avname',      XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('lst',         XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_index('uuid', XMLDB_INDEX_NOTUNIQUE, array('uuid'));
@@ -161,14 +161,14 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_active_object<br />";
         $table = new xmldb_table('sloodle_active_object');
 
-        $table->add_field('id',           XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('controllerid', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('userid',       XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);
+        $table->add_field('id',           XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('controllerid', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           null, null);
+        $table->add_field('userid',       XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           null, null);
         $table->add_field('uuid',         XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('password',     XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('name',         XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('type',         XMLDB_TYPE_CHAR,    '50',  null,           XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('timeupdated',  XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('timeupdated',  XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
@@ -178,8 +178,8 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_object_config<br />";
         $table = new xmldb_table('sloodle_object_config');
 
-        $table->add_field('id',     XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('object', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);
+        $table->add_field('id',     XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('object', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           null, null);
         $table->add_field('name',   XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('value',  XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
 
@@ -191,7 +191,7 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_login_notifications<br />";
         $table = new xmldb_table('sloodle_login_notifications');
 
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
         $table->add_field('destination', XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('avatar',      XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('username',    XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
@@ -204,10 +204,10 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_layout<br />";
         $table = new xmldb_table('sloodle_layout');
 
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('course',      XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('course',      XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
         $table->add_field('name',        XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_index('course-name', XMLDB_INDEX_UNIQUE, array('course', 'name'));
@@ -217,8 +217,8 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_layout_entry<br />";
         $table = new xmldb_table('sloodle_layout_entry');
 
-        $table->add_field('id',       XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('layout',   XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('id',       XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('layout',   XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
         $table->add_field('name',     XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('position', XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('rotation', XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
@@ -231,11 +231,11 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_loginzone_allocation<br />";
         $table = new xmldb_table('sloodle_loginzone_allocation');
 
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('course',      XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
-        $table->add_field('userid',      XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('course',      XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('userid',      XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
         $table->add_field('position',    XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
 
         $table->add_key('primary',  XMLDB_KEY_PRIMARY, array('id'));
         $table->add_index('course', XMLDB_INDEX_NOTUNIQUE, array('course'));
@@ -246,13 +246,13 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_user_object<br />";
         $table = new xmldb_table('sloodle_user_object');
 
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
         $table->add_field('avuuid',      XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('objuuid',     XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('objname',     XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
         $table->add_field('password',    XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('authorised',  XMLDB_TYPE_INTEGER, '1',   XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
-        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('authorised',  XMLDB_TYPE_INTEGER, '1',   null, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
 
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
         $table->add_index('objuuid', XMLDB_INDEX_UNIQUE, array('objuuid'));
@@ -263,29 +263,22 @@ function xmldb_sloodle_upgrade($oldversion=0)
         $table = new xmldb_table('sloodle_users');
         
         echo " - dropping old fields<br />";
-        // Drop the loginzone fields (we don't care about success or otherwise... not all fields will be present in all versions)
-        $field = new xmldb_field('loginposition');
-        drop_field($table, $field);
-        $field = new xmldb_field('loginpositionexpires');
-        drop_field($table, $field);
-        $field = new xmldb_field('loginpositionregion');
-        drop_field($table, $field);
-        $field = new xmldb_field('loginsecuritytoken');
-        drop_field($table, $field);
-        // Drop the old 'online' field (was going to be a boolean, but was never used)
-        $field = new xmldb_field('online');
-        drop_field($table, $field);
+        foreach (['loginposition', 'loginpositionexpires', 'loginpositionregion', 'loginsecuritytoken', 'online'] as $fname) {
+            $field = new xmldb_field($fname);
+            if ($dbman->field_exists($table, $field)) {
+                $dbman->drop_field($table, $field);
+            }
+        }
         
         // Add the new 'lastactive' field
         echo " - adding lastactive field<br />";
         $field = new xmldb_field('lastactive');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'avname');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'avname');
         $dbman->add_field($table, $field);
         
         /// Purge redundant avatar entries
         echo "Purging redundant avatar entries...<br />";
-        $sql = " DELETE FROM {$CFG->prefix}sloodle_users WHERE userid = 0 OR uuid = '' OR avname = '' ";
-        execute_sql($sql);
+        $DB->execute("DELETE FROM {sloodle_users} WHERE userid = 0 OR " . $DB->sql_isempty('sloodle_users', 'uuid', false, true) . " OR " . $DB->sql_isempty('sloodle_users', 'avname', false, true));
     }
     
     
@@ -294,11 +287,11 @@ function xmldb_sloodle_upgrade($oldversion=0)
         $table = new xmldb_table('sloodle_presenter_entry');
 
         /// Adding fields to table sloodle_presenter_entry
-        $table->add_field('id',        XMLDB_TYPE_INTEGER, '10',     XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null,  null);
-        $table->add_field('sloodleid', XMLDB_TYPE_INTEGER, '10',     XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null,  null);
+        $table->add_field('id',        XMLDB_TYPE_INTEGER, '10',     null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null,  null);
+        $table->add_field('sloodleid', XMLDB_TYPE_INTEGER, '10',     null, XMLDB_NOTNULL, null,           null,  null);
         $table->add_field('source',    XMLDB_TYPE_TEXT,    'medium', null,           XMLDB_NOTNULL, null,           null,  null);
         $table->add_field('type',      XMLDB_TYPE_CHAR,    '255',    null,           XMLDB_NOTNULL, null,           'web', null);
-        $table->add_field('ordering',  XMLDB_TYPE_INTEGER, '10',     XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null,  null);
+        $table->add_field('ordering',  XMLDB_TYPE_INTEGER, '10',     null, XMLDB_NOTNULL, null,           null,  null);
 
         /// Adding keys to table sloodle_presenter_entry
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
@@ -317,8 +310,8 @@ function xmldb_sloodle_upgrade($oldversion=0)
         $table = new xmldb_table('sloodle_layout_entry_config');
 
         /// Adding fields to table sloodle_layout_entry_config
-        $table->add_field('id',           XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('layout_entry', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, null,          null,           null, null);
+        $table->add_field('id',           XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('layout_entry', XMLDB_TYPE_INTEGER, '10',  null, null,          null,           null, null);
         $table->add_field('name',         XMLDB_TYPE_CHAR,    '255', null,           null,          null,           null, null);
         $table->add_field('value',        XMLDB_TYPE_CHAR,    '255', null,           null,          null,           null, null);
 
@@ -348,10 +341,10 @@ function xmldb_sloodle_upgrade($oldversion=0)
         $table = new xmldb_table('sloodle_presenter');
 
         /// Adding fields to table sloodle_presenter
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null,  null);
-        $table->add_field('sloodleid',   XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null,          null,           null,  null);
-        $table->add_field('framewidth',  XMLDB_TYPE_INTEGER, '4',  XMLDB_UNSIGNED, null,          null,           '512', null);
-        $table->add_field('frameheight', XMLDB_TYPE_INTEGER, '4',  XMLDB_UNSIGNED, null,          null,           '512', null);
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null,  null);
+        $table->add_field('sloodleid',   XMLDB_TYPE_INTEGER, '10', null, null,          null,           null,  null);
+        $table->add_field('framewidth',  XMLDB_TYPE_INTEGER, '4',  null, null,          null,           '512', null);
+        $table->add_field('frameheight', XMLDB_TYPE_INTEGER, '4',  null, null,          null,           '512', null);
 
         /// Adding keys to table sloodle_presenter
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
@@ -415,24 +408,20 @@ function xmldb_sloodle_upgrade($oldversion=0)
     }
 
 
-    if (!$dbman->table_exists(new xmldb_table('sloodle_currency_types'))) {     
+    if (!$dbman->table_exists(new xmldb_table('sloodle_currency_types'))) {
         $table = new xmldb_table('sloodle_currency_types');
-         echo "creating new currency table for site wide virtual currency<br />";               
-        $field = new xmldb_field('id');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '11', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, '0',  null);    
-        $table->addField($field);
-        $field = new xmldb_field('name');
-        $field->set_attributes(XMLDB_TYPE_CHAR,    '50', null,           XMLDB_NOTNULL, null,           null, 'id');
-        $table->addField($field);        
-        $field = new xmldb_field('timemodified');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  'units');
-        $table->addField($field);   
+        echo "creating new currency table for site wide virtual currency<br />";
+        $table->add_field('id',           XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('name',         XMLDB_TYPE_CHAR,    '50', null, XMLDB_NOTNULL, null,           null, 'id');
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null,           '0',  'name');
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
-        $dbman->create_table($table);           
+        $dbman->create_table($table);
 
         $newCurrency = new stdClass();
-        $newCurrency->name="Credits";
-        if (sloodle_insert_record('sloodle_currency_types',$newCurrency))echo "Added Credits currency: OK<br />";
+        $newCurrency->name = "Credits";
+        if (sloodle_insert_record('sloodle_currency_types', $newCurrency)) {
+            echo "Added Credits currency: OK<br />";
+        }
     }
     
 
@@ -461,7 +450,7 @@ function xmldb_sloodle_upgrade($oldversion=0)
         /// Define field layoutentryid to be added to sloodle_active_object
         $table = new xmldb_table('sloodle_active_object');
         $field = new xmldb_field('layoutentryid');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, null, 'httpinurl');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'httpinurl');
 
         /// Launch add field layoutentryid
         $dbman->add_field($table, $field);
@@ -521,11 +510,11 @@ function xmldb_sloodle_upgrade($oldversion=0)
         $table = new xmldb_table('sloodle_award_rounds');
 
         /// Adding fields to table sloodle_award_rounds
-        $table->add_field('id',           XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('timestarted',  XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
-        $table->add_field('timeended',    XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('id',           XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('timestarted',  XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
+        $table->add_field('timeended',    XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);
         $table->add_field('name',         XMLDB_TYPE_CHAR,    '255', null,           null,          null,           null, null);
-        $table->add_field('controllerid', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, null,          null,           null, null);
+        $table->add_field('controllerid', XMLDB_TYPE_INTEGER, '10',  null, null,          null,           null, null);
 
         /// Adding keys to table sloodle_award_rounds
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
@@ -540,12 +529,12 @@ function xmldb_sloodle_upgrade($oldversion=0)
         $table = new xmldb_table('sloodle_award_points');
 
         /// Adding fields to table sloodle_award_points
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('userid',      XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('currencyid',  XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('userid',      XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null,           null, null);
+        $table->add_field('currencyid',  XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null,           null, null);
         $table->add_field('amount',      XMLDB_TYPE_INTEGER, '10', null,           XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('timeawarded', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);
-        $table->add_field('roundid',     XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);
+        $table->add_field('timeawarded', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null,           null, null);
+        $table->add_field('roundid',     XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null,           null, null);
 
         /// Adding keys to table sloodle_award_points
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
@@ -587,7 +576,7 @@ function xmldb_sloodle_upgrade($oldversion=0)
         /// Define field courseid to be added to sloodle_award_rounds
         $table = new xmldb_table('sloodle_award_rounds');
         $field = new xmldb_field('courseid');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'controllerid');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'controllerid');
 
         /// Launch add field courseid
         $dbman->add_field($table, $field);
@@ -605,7 +594,7 @@ function xmldb_sloodle_upgrade($oldversion=0)
         /// Define field displayorder to be added to sloodle_currency_types
         $table = new xmldb_table('sloodle_currency_types');
         $field = new xmldb_field('displayorder');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, null, 'imageurl');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'imageurl');
 
         /// Launch add field displayorder
         $dbman->add_field($table, $field);
@@ -623,7 +612,7 @@ function xmldb_sloodle_upgrade($oldversion=0)
         /// Define field lastmessagetimestamp to be added to sloodle_active_object
         $table = new xmldb_table('sloodle_active_object');
         $field = new xmldb_field('lastmessagetimestamp');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, null, 'mediakey');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'mediakey');
 
         /// Launch add field lastmessagetimestamp
         $dbman->add_field($table, $field);
@@ -647,14 +636,14 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_activity_tool<br />";                                                                                       
         $table = new xmldb_table('sloodle_activity_tool');                                                                         
 
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);     
-        $table->add_field('trackerid',   XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);              
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);     
+        $table->add_field('trackerid',   XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           null, null);              
         $table->add_field('uuid',        XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);                          
         $table->add_field('description', XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);            
         $table->add_field('taskname',    XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);                
         $table->add_field('name',        XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);                      
         $table->add_field('type',        XMLDB_TYPE_CHAR,    '50',  null,           XMLDB_NOTNULL, null,           null, null);                     
-        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);  
+        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);  
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));                                                          
         $table->add_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));                                                         
 
@@ -667,11 +656,11 @@ function xmldb_sloodle_upgrade($oldversion=0)
         echo " - sloodle_activity_tracker<br />";                                                                              
         $table = new xmldb_table('sloodle_activity_tracker');                                                                    
 
-        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('trackerid',   XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);     
+        $table->add_field('id',          XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('trackerid',   XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           null, null);     
         $table->add_field('objuuid',     XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);                  
         $table->add_field('avuuid',      XMLDB_TYPE_CHAR,    '255', null,           XMLDB_NOTNULL, null,           null, null);                    
-        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           '0',  null);     
+        $table->add_field('timeupdated', XMLDB_TYPE_INTEGER, '10',  null, XMLDB_NOTNULL, null,           '0',  null);     
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));                                                          
                                                                                                 
         $dbman->create_table($table);         
@@ -683,8 +672,8 @@ function xmldb_sloodle_upgrade($oldversion=0)
         $table = new xmldb_table('sloodle_tracker');
 
         /// Adding fields to table sloodle_tracker
-        $table->add_field('id',        XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
-        $table->add_field('sloodleid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,           null, null);
+        $table->add_field('id',        XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null, null);
+        $table->add_field('sloodleid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null,           null, null);
 
         /// Adding keys to table sloodle_tracker
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
@@ -700,7 +689,7 @@ function xmldb_sloodle_upgrade($oldversion=0)
         // see http://docs.moodle.org/dev/Text_formats_2.0
         $table = new xmldb_table('sloodle');
         $field = new xmldb_field('introformat');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, null, null, null, 'intro');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'intro');
 
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
@@ -712,7 +701,7 @@ function xmldb_sloodle_upgrade($oldversion=0)
         /// Define field controllerid to be added to sloodle_layout
         $table = new xmldb_table('sloodle_layout');
         $field = new xmldb_field('controllerid');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, null, null, null, 'timeupdated');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'timeupdated');
 
         /// Launch add field controllerid
         if (!$dbman->field_exists($table, $field)) {
@@ -725,7 +714,7 @@ function xmldb_sloodle_upgrade($oldversion=0)
         //
         $table = new xmldb_table('sloodle_award_points');
         $field = new xmldb_field('tomoney');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '2', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'roundid');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'roundid');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -737,7 +726,7 @@ function xmldb_sloodle_upgrade($oldversion=0)
             $dbman->add_field($table, $field);
         }
         $field = new xmldb_field('roundid');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0', 'award');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'award');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -751,12 +740,12 @@ function xmldb_sloodle_upgrade($oldversion=0)
 
         $table = new xmldb_table('sloodle_tracker');
         $field = new xmldb_field('autosend');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '2', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '1', 'sloodleid');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '1', 'sloodleid');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
         $field = new xmldb_field('currency');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '1', 'autosend');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '1', 'autosend');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }

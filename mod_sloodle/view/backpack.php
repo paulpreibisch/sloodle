@@ -67,9 +67,9 @@ class sloodle_view_backpack extends sloodle_base_view
 
         $id = required_param('id', PARAM_INT);
         //check if valid course
-        if (!$this->course = sloodle_get_record('course', 'id', $id)) print_error('Could not find course.');
+        if (!$this->course = sloodle_get_record('course', 'id', $id)) throw new \moodle_exception('Could not find course.');
         $this->sloodle_course = new SloodleCourse();
-        if (!$this->sloodle_course->load($this->course)) print_error(get_string('failedcourseload', 'sloodle'));
+        if (!$this->sloodle_course->load($this->course)) throw new \moodle_exception('failedcourseload', 'sloodle');
 
         // for OpenSim DTL/NSL Money Server
         if ($CFG->sloodle_opensim_money=='helper') {
@@ -104,7 +104,7 @@ class sloodle_view_backpack extends sloodle_base_view
         //itemAdd form has been submitted
         if ($isItemAdd) {
             if (!$this->can_edit) {
-                print_error("Permission denied");
+                throw new \moodle_exception("Permission denied");
             }
             $controllerid = required_param('controllerid', PARAM_INT);
 
@@ -114,7 +114,7 @@ class sloodle_view_backpack extends sloodle_base_view
             //create controller so we can fetch active round
             $controller = new SloodleController();
             if(!$controller->load_by_course_module_id($controllerid)) {
-                print_error('Could not load controller for '.$controllerid);
+                throw new \moodle_exception('Could not load controller for '.$controllerid);
             }
             $roundid = $controller->get_active_roundid(true);
 
@@ -219,7 +219,7 @@ class sloodle_view_backpack extends sloodle_base_view
     {
         // Ensure the user logs in
         require_login($this->course->id);
-        if (isguestuser()) print_error(get_string('noguestaccess', 'sloodle'));
+        if (isguestuser()) throw new \moodle_exception('noguestaccess', 'sloodle');
         //add_to_log($this->course->id, 'course', 'view sloodle data', '', "{$this->course->id}");
         sloodle_add_to_log($this->course->id, 'module_viewed', 'view.php', array('_type'=>'backpack', 'id'=>$this->course->id), 'backpack: view sloodle data');
         // Ensure the user is allowed to update information on this course
@@ -263,7 +263,7 @@ class sloodle_view_backpack extends sloodle_base_view
         if ($controllerid==0) {
             $controllers = sloodle_get_records_sql_params("select * from {$prefix}sloodle where type=? AND course=?", array(SLOODLE_TYPE_CTRL, $courseid));
             if (!$controllers || count($controllers)==0) {
-                print_error(get_string('objectauthnocontrollers', 'sloodle'));
+                throw new \moodle_exception('objectauthnocontrollers', 'sloodle');
                 exit();
             }
             $cm = get_coursemodule_from_instance('sloodle', current($controllers)->id);
@@ -449,7 +449,7 @@ class sloodle_view_backpack extends sloodle_base_view
 
             // Make sure we have at least one controller
             if (!$controllers || count($controllers)==0) {
-                print_error(get_string('objectauthnocontrollers','sloodle'));
+                throw new \moodle_exception('objectauthnocontrollers', 'sloodle');
                 exit();
             }
 
